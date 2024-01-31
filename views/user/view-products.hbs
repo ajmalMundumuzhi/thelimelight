@@ -1,0 +1,347 @@
+<body>
+    <!-- slider -->
+
+    <div class="slider">
+        <!-- list Items -->
+        <div class="list">
+            <div class="item active">
+              <img src="https://muslimhype.com/wp-content/uploads/2022/12/Contribution-of-Islam-for-the-rise-of-Arabian-Culture.webp" alt="" style="width: 100%;">
+                <div class="content mt-5">
+                    <p>HIGHLIGHTS</p>
+                    <h2 style="font-size: 50px;">ESSAY</h2>
+                    <p>
+                      Madrasa: The custodians of power in the premodern islamic world. 
+                    </p>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://overseasnews.in/wp-content/uploads/2018/11/Dr.-MCR-HRD-Institute-Conducts-Army-Symposium-for-Trainee-Civil-Servants-1.jpg" style="border: solid 1px white;">
+                <div class="content mt-5">
+                    <p>HIGHLIGHTS</p>
+                    <h2 style="font-size: 50px;">INTERVIEW</h2>
+                    <p>
+                     
+KARMA Means we have to do the work, not concentrate on the result.
+                    </p>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://i.dawn.com/primary/2016/04/57206df1e1ddc.jpg" alt="" style="width: 100%;">
+                <div class="content mt-5">
+                    <p>HIGHLIGHTS</p>
+                    <h2 style="font-size: 50px;">ARTICLE</h2>
+                    <p>
+                      
+The Significance of Madrasa System in Kerala.
+                    </p>
+                </div>
+            </div>
+            <div class="item">
+               <img src="https://c.wallhere.com/photos/e6/ae/digital_art_nature_trees_forest_painting_Japanese_branch_bridge-99425.jpg!d" alt="">
+                <div class="content mt-5">
+                    <p>HIGHLIGHTS</p>
+                    <h2 style="font-size: 50px;">ART</h2>
+                      <p>
+                     Shadows of valour: A Soldier's Resolve. 
+                    </p>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://snu.edu.in/site/assets/files/10464/antique-quill-pen-writes-old-fashioned-calligraphy-generated-by-ai.1600x0.webp " alt="">
+                <div class="content mt-5">
+                    <p>HIGHLIGHTS</p>
+                    <h2 style="font-size: 50px;">LITERATURE</h2>
+                    <p>
+                      This magazine is just a humble attempt to showcase various talented writers coming up with blazing innovatory literary works that include stunning stories, thought-provoking poems, debatable articles and amicable travelogues and so on.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- button arrows -->
+        <div class="arrows">
+            <button id="prev"><</button>
+            <button id="next">></button>
+        </div>
+        <!-- thumbnail -->
+        <div class="thumbnail">
+            <div class="item active">
+                <div class="content">
+                </div>
+            </div>
+            <div class="item">
+                <div class="content">
+                </div>
+            </div>
+            <div class="item">
+                <div class="content">
+                  
+                </div>
+            </div>
+            <div class="item">
+                <div class="content">
+                </div>
+            </div>
+            <div class="item">
+                <div class="content">
+                </div>
+            </div>
+        </div>
+    </div>
+{{!-- Cards --}}
+</section>
+
+<hr class="container">
+    <section>
+        <div class="container ">
+        <div class="row mt-5">
+            {{#each products}}
+           
+            <div class="col-sm-6 col-md-3" style="margin-top: 20px;">
+                <div class="card bg-dark" style="">
+  <img src="/{{ this.image }}" class="hovering card-img-top" alt="..." style="height: 160px; width: 100%;">
+  <a href="product/{{this._id}}" style="text-decoration:none; color:white;">
+    
+  <div class="card-body shadow" style="height: 200px;">
+    <p class="text-center">{{this.Author}}</p>
+     <button class="btn" style="background-color:#bb86fc; height:30px; font: size 100%;" >{{this.Category}}</button>
+    <hr>
+    <h5 class="card-title text-center">{{this.Name}}</h5>
+  
+  </div>
+  </a>
+</div>
+
+
+            </div>
+            {{/each}}
+        </div>
+        </div>
+   
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {{!-- style  --}}
+ <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body{
+    font-family: Poppins;
+    margin: 0;
+    background-color: #010101;
+    color: #eee;
+}
+.shadow{
+  box-shadow: 5px 10px 7px white;
+  overflow: hidden;
+}
+.hovering:hover{
+  width: 380px;
+}
+/* css slider */
+.slider{
+    height: 100vh;
+    margin-top: 0;
+    position: relative;
+}
+.slider .list .item{
+    position: absolute;
+    inset: 0 0 0 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: .5s;
+}
+.slider .list .item img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.slider .list .item::after{
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-image: linear-gradient(
+        to top, #000 0%, transparent
+    );
+}
+.slider .list .item .content{
+    position: absolute;
+    left: 10%;
+    top: 20%;
+    width: 500px;
+    max-width: 80%;
+    z-index: 1;
+}
+.slider .list .item .content p:nth-child(1){
+    text-transform: u   percase;
+    letter-spacing: 10px;
+}
+.slider .list .item .content h2{
+    font-size: 100px;
+    margin: 0;
+}
+.slider .list .item.active{
+    opacity: 1;
+    z-index: 10;
+}
+@keyframes showContent {
+    to{
+        transform: translateY(0);
+        filter: blur(0);
+        opacity: 1;
+    }
+}
+.slider .list .item.active p:nth-child(1),
+.slider .list .item.active h2,
+.slider .list .item.active p:nth-child(3){
+    transform: translateY(30px);
+    filter: blur(20px);
+    opacity: 0;
+    animation: showContent .5s .7s ease-in-out 1 forwards;
+}
+.slider .list .item.active h2{
+    animation-delay: 1s;
+}
+.slider .list .item.active p:nth-child(3){
+    animation-duration: 1.3s;
+}
+.arrows{
+    position: absolute;
+    top: 30%;
+    right: 50px;
+    z-index: 100;
+}
+.arrows button{
+    background-color: #eee5;
+    border: none;
+    font-family: monospace;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    font-size: x-large;
+    color: #eee;
+    transition: .5s;
+}
+.arrows button:hover{
+    background-color: #eee;
+    color: black;
+}
+ .thumbnail{
+    position: absolute;
+    bottom: 50px;
+    z-index: 11;
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    height: 250px;
+    padding: 0 50px;
+    box-sizing: border-box;
+    overflow: auto;
+    justify-content: center;
+}
+.thumbnail::-webkit-scrollbar{
+    width: 0;
+}
+.thumbnail .item{
+    width: 150px;
+    height: 220px;
+    filter: brightness(.5);
+    transition: .5s;
+    flex-shrink: 0;
+}
+.thumbnail .item img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.thumbnail .item.active{
+    filter: brightness(1.5);
+}
+.thumbnail .item .content{
+    position: absolute;
+    inset: auto 10px 10px 10px;
+}
+@media screen and (max-width: 678px) {
+    .thumbnail{
+        justify-content: start;
+    }
+    .slider .list .item .content h2{
+        font-size: 60px;
+    }
+    .arrows{
+        top: 10%;
+    }
+}
+ </style>
+
+
+
+ {{!-- SCRIPT --}}
+ <script>
+  let items = document.querySelectorAll('.slider .list .item');
+let next = document.getElementById('next');
+let prev = document.getElementById('prev');
+let thumbnails = document.querySelectorAll('.thumbnail .item');
+
+// config param
+let countItem = items.length;
+let itemActive = 0;
+// event next click
+next.onclick = function(){
+    itemActive = itemActive + 1;
+    if(itemActive >= countItem){
+        itemActive = 0;
+    }
+    showSlider();
+}
+//event prev click
+prev.onclick = function(){
+    itemActive = itemActive - 1;
+    if(itemActive < 0){
+        itemActive = countItem - 1;
+    }
+    showSlider();
+}
+// auto run slider
+let refreshInterval = setInterval(() => {
+    next.click();
+}, 5000)
+function showSlider(){
+    // remove item active old
+    let itemActiveOld = document.querySelector('.slider .list .item.active');
+    let thumbnailActiveOld = document.querySelector('.thumbnail .item.active');
+    itemActiveOld.classList.remove('active');
+    thumbnailActiveOld.classList.remove('active');
+
+    // active new item
+    items[itemActive].classList.add('active');
+    thumbnails[itemActive].classList.add('active');
+
+    // clear auto time run slider
+    clearInterval(refreshInterval);
+    refreshInterval = setInterval(() => {
+        next.click();
+    }, 5000)
+}
+
+// click thumbnail
+thumbnails.forEach((thumbnail, index) => {
+    thumbnail.addEventListener('click', () => {
+        itemActive = index;
+        showSlider();
+    })
+})
+ </script>
