@@ -4,6 +4,7 @@ const state={
     db:null
 }
 module.exports.connect= async function(done){
+    console.log("DB connecting .....")
     const url='mongodb+srv://muhajmal73:mongodb_ajmal_server@cluster0.pwtvatv.mongodb.net/?retryWrites=true&w=majority'
     const dbname='Limelight'
 
