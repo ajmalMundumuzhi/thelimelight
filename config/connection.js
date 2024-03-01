@@ -9,11 +9,14 @@ module.exports.connect=async function(done){
 
     const client = await mongoClient.connect(url)
     state.db=client.db(dbname)
+
+    console.log(state.db);
 }
 
     module.exports.get=function(){
         
       if(!state.db) {
+          this.connect();
           console.log('Database Not connected...');
       }
         return state.db
