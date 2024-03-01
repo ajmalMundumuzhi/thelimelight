@@ -14,6 +14,7 @@ module.exports.connect=async function(done){
     module.exports.get=function(){
         
       if(!state.db) {
+          this.connect()
           console.log('Database Not connected');
       }
         return state.db
