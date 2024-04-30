@@ -16,12 +16,21 @@ const verifyLogin=(req,res,next)=>{
 
 router.get("/", verifyLogin, function (req, res, next) {
   let admin = req.session.admin;
-  productHelpers.getAllProducts().then((products,response) => {
+  productHelpers.getAllProducts().then((products, response) => {
+    console.log("Trying to render:", 'admin/view-products'); // Add this line
     res.render('admin/view-products', { products, admin:true });
-
-
   }); 
 });
+
+
+// router.get("/", verifyLogin, function (req, res, next) {
+//   let admin = req.session.admin;
+//   productHelpers.getAllProducts().then((products,response) => {
+//     res.render('admin/view-products', { products, admin:true });
+
+
+//   }); 
+// });
 
 router.get("/login", (req, res) => {
   res.render("admin/login");
