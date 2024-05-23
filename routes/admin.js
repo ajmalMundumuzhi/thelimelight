@@ -22,16 +22,6 @@ router.get("/", verifyLogin, function (req, res, next) {
   }); 
 });
 
-
-// router.get("/", verifyLogin, function (req, res, next) {
-//   let admin = req.session.admin;
-//   productHelpers.getAllProducts().then((products,response) => {
-//     res.render('admin/view-products', { products, admin:true });
-
-
-//   }); 
-// });
-
 router.get("/login", (req, res) => {
   res.render("admin/login");
 });
@@ -96,12 +86,5 @@ router.post("/edit-product/:id", async (req, res) => {
     res.redirect("/admin");
   });
 });
-
-// router.get('/edit-product:id',(req,res)=>{
-//   productHelpers.updateProduct(req.params.id,req.body).then(()=>{
-//     res.redirect('/admin')
-//   })
-// })
-// 22:01
 
 module.exports = router;
