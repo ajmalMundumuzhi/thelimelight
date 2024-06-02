@@ -7,11 +7,10 @@ var hbs=require('express-handlebars');
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 var fileUpload=require('express-fileupload');
-var db=require('./config/connection')
+var db=require('./db/connection.js')
 var app = express();
 const mongoClient=require('mongodb').MongoClient
 var session=require('express-session')
-db.connect()
 // this express session max age:600000 = 6 minutes are the expiry of logined page 
 // express-session configuration
 app.use(session({
