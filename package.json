@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon --trace-warnings ./bin/www"
+    "start": "node --trace-warnings ./bin/www"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

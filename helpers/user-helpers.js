@@ -1,6 +1,6 @@
 const bcrypt=require('bcrypt')
 const { response } = require('express');
-const User = require('../db/schema/user');
+const User = require('./../db/schema/user');
 
 module.exports={
 
