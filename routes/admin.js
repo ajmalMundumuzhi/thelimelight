@@ -6,6 +6,8 @@ const { log } = require("handlebars");
 const productHelpers = require("../helpers/product-helpers");
 const userHelpers = require("../helpers/user-helpers");
 /* GET users listing. */
+
+
 const verifyLogin=(req,res,next)=>{
   if(req.session.loggedIn){
     next()
