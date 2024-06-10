@@ -1,16 +1,30 @@
-var db=require('../config/connection')
-var collection=require('../config//collections')
 const bcrypt=require('bcrypt')
-const { ObjectId } = require('mongodb');
 const { response } = require('express');
+const User = require('../db/schema/User');
 
 module.exports={
+
+     createDocument : async () => {
+        const newDoc = new User({
+            name: 'test adi',
+            email: 'test@emaill.com',
+            password: 'adipidi'
+        });
+    
+        try {
+            const savedDoc = await newDoc.save();
+            console.log('Document saved successfully:', savedDoc);
+        } catch (error) {
+            console.error('Error saving document:', error);
+        }
+    },
+    
 
     doSignup:(admin,callback)=>{
 return new Promise(async(resolve,reject)=>{
 
             admin.Password=await bcrypt.hash(admin.Password,10)
-            db.get().collection(collection.USER_COLLECTION).insertOne(admin)
+            User.create(admin)
                 .then((data) => {
                     resolve(data.insertedId)
                 })
@@ -37,9 +51,13 @@ return new Promise(async(resolve,reject)=>{
 // },
   doLogin:(userData)=>{
     return new Promise(async(resolve,reject)=>{
+        console.log(
+            'reached here'
+        )
         let loginStatus=false
         let response={}
-        let user=await db.get().collection(collection.USER_COLLECTION).findOne({Email:userData.Email})
+        let user=await User.findOne({Email:userData.Email}).lean()
+        console.log(userData.Password,user.Password)
         if(user){
             bcrypt.compare(userData.Password,user.Password).then((status)=>{
                 if(status){
@@ -51,6 +69,8 @@ return new Promise(async(resolve,reject)=>{
                     console.log("Login failled");
                     resolve({status:false})
                 }
+            }).catch((err)=>{
+                console.log(err, 'error here')
             })
         }else{
          console.log("Login failled");
@@ -59,59 +79,59 @@ return new Promise(async(resolve,reject)=>{
     })
   },
 
-    addToCart: (proId, userId) => {
-        return new Promise(async (resolve, reject) => {
-            console.log('Adding to cart:', proId, userId);
+    // addToCart: (proId, userId) => {
+    //     return new Promise(async (resolve, reject) => {
+    //         console.log('Adding to cart:', proId, userId);
     
-            let userCart=await db.get().collection(collection.CART_COLLECTION).findOne({user: new ObjectId(userId)})
-            if(userCart){
-                db.get().collection(collection.CART_COLLECTION).
-                updateOne({user:onrejectionhandled(proId)},
-                {
-                    $push:{products:ObjectId(proId)}
-                }
-                ).then((response)=>{
-                    resolve()
-                })
-            }else{
-                let objId = {
-                    user: new ObjectId(userId),
-                    products: [new ObjectId(proId)]
-                };
+    //         let userCart=await db.get().collection(collection.CART_COLLECTION).findOne({user: new ObjectId(userId)})
+    //         if(userCart){
+    //             db.get().collection(collection.CART_COLLECTION).
+    //             updateOne({user:onrejectionhandled(proId)},
+    //             {
+    //                 $push:{products:ObjectId(proId)}
+    //             }
+    //             ).then((response)=>{
+    //                 resolve()
+    //             })
+    //         }else{
+    //             let objId = {
+    //                 user: new ObjectId(userId),
+    //                 products: [new ObjectId(proId)]
+    //             };
                 
-                db.get().collection(collection.CART_COLLECTION).insertOne(objId).then((response)=>{
-                    resolve()
-                }   )
-            }
-        } )
-    },
+    //             db.get().collection(collection.CART_COLLECTION).insertOne(objId).then((response)=>{
+    //                 resolve()
+    //             }   )
+    //         }
+    //     } )
+    // },
 
-    getCartProducts:(userId) =>{
-        return new Promise(async(resolve,reject)=>{
-            let cartItems=await db.get().collection(collection.CART_COLLECTION).aggregate([
-            {
-                $match:{user:new ObjectId(userId)}
-            },
-            {
-                $lookup:{
-                    from:collection.PRODUCT_COLLECTION,
-                    let:{prodList:'$products'},
-                    pipeline:[
-                        {
-                            $match:{
-                                $expr:{
-                                    $in:['$_id',"$$prodList"]
-                                }
-                            }
-                        }
-                    ],
-                    as:'cartItems'
+    // getCartProducts:(userId) =>{
+    //     return new Promise(async(resolve,reject)=>{
+    //         let cartItems=await db.get().collection(collection.CART_COLLECTION).aggregate([
+    //         {
+    //             $match:{user:new ObjectId(userId)}
+    //         },
+    //         {
+    //             $lookup:{
+    //                 from:collection.PRODUCT_COLLECTION,
+    //                 let:{prodList:'$products'},
+    //                 pipeline:[
+    //                     {
+    //                         $match:{
+    //                             $expr:{
+    //                                 $in:['$_id',"$$prodList"]
+    //                             }
+    //                         }
+    //                     }
+    //                 ],
+    //                 as:'cartItems'
 
-                }
-            }
-            ]).toArray()
-            resolve(cartItems)
-        })
-    }
+    //             }
+    //         }
+    //         ]).toArray()
+    //         resolve(cartItems)
+    //     })
+    // }
 
 }

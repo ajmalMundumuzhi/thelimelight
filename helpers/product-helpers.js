@@ -1,120 +1,72 @@
-var db=require('../config/connection')
-var collection=require('../config//collections')
-const { ObjectId } = require('mongodb');
+const Article = require('../db/schema/Article');
 
- 
-module.exports={
+function addProduct(req, callback) {
+  let product = req.body;
 
-   addProduct: (req, callback) => {
-      const collectionName = 'product';
+  if (req.files.image) {
+    let image = req.files.image;
+    let base_path = 'storage/products/' + image.name;
+    let image_path = __dirname + '/../public/' + base_path;
+    image.mv(image_path, function (err) {
+      if (err) callback(new Error(err), null);
+    });
 
-      let product = req.body;
-    
-      if (req.files.image) {
-        let image = req.files.image;
-        let base_path = 'storage/products/' + image.name
-        let image_path = __dirname + '/../public/' + base_path;
-        image.mv(image_path, function(err) {
-            if (err)
-                callback(new Error(err), null);
-          });
-          
-          Object.assign(product, {'image' : base_path});
-      }
-
-  
-      db.get().collection(collectionName).insertOne(product)
-          .then((data) => {
-            callback(null, data);
-          })
-          .catch((error) => {
-              console.error('Error adding product:', error);
-              callback(error, null);
-          });
+    Object.assign(product, { image: base_path });
   }
-  ,
-     getAllProducts:()=>{
-      return new Promise((resolve,reject)=>{
-         let products=db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
-         resolve(products)
+  //   Article.create(product)
+  const article = new Article(product);
+  article
+    .save()
+    .then((data) => {
+      callback(null, data);
+    })
+    .catch((error) => {
+      console.error('Error adding product:', error);
+      callback(error, null);
+    });
+}
+function getAllProducts() {
+  return new Promise((resolve, reject) => {
+    let products = Article.find().lean();
+    resolve(products);
+  });
+}
+function deleteProduct(prodId) {
+  return new Promise((resolve, reject) => {
+    Article.findByIdAndDelete(prodId)
+      .then((response) => {
+        console.log(response);
+        resolve(response);
       })
-     },
-     deleteProduct: (prodId) => {
-         return new Promise((resolve, reject) => {
-             db.get().collection(collection.PRODUCT_COLLECTION).deleteOne({ _id: new ObjectId(prodId) })
-                 .then((response) => {
-                     console.log(response);
-                     resolve(response);
-                 })
-                 .catch((error) => {
-                     reject(error);
-                 });
-         });
-     },
-     getProductDetails: (prodId) => {
-        return new Promise ((resolve,reject)=>{
-            db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id: new ObjectId(prodId)}).then((product)=>{
-                resolve(product)
-            })
-        })
-     },
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+function getProductDetails(prodId) {
+  return new Promise((resolve, reject) => {
+    Article.findById(prodId).then((product) => {
+      resolve(product);
+    });
+  });
+}
+function updateProduct(prodId, proDetails) {
+  return new Promise((resolve, reject) => {
+    Article.findByIdAndUpdate(prodId, {
+      Name: proDetails.Name,
+      Category: proDetails.Category,
+      Price: proDetails.Price,
+      Description: proDetails.Description,
+    }).then((response) => {
+      resolve();
+    });
+  });
+}
 
-     updateProduct: (prodId,proDetails)=>{
-        return new Promise ((resolve,reject)=>{
-            db.get().collection(collection.PRODUCT_COLLECTION)
-            .updateOne({_id: new ObjectId(prodId)},
-            {
-                $set:{
-                    Name:proDetails.Name,
-                    Category:proDetails.Category,
-                    Price:proDetails.Price,
-                    Description:proDetails.Description
-                }
-            }).then((response)=>{
-                resolve()
-            })
-        })
-     }
-     
- }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//  ===========================================================================================================================================================================
-         // db.get().collection(collection.PRODUCT_COLLECTION).removeOne({_id: objectId(prodId)}).then((response)=>{
-
-//22:25   
-//31:45
-
-// deleteProduct:(prodId)=>{
-   //    return new Promise((resolve,reject)=>{
-   //       db.get().collection(collection.PRODUCT_COLLECTION).deleteOne({ _id: ObjectId(prodId)}).then((response) => {
-   //           console.log(response);
-   //          resolve(response)
-   //       })
-   //    })
-   //   }
-
-// -----------------------------------------------------------------------------------------------------------------------------------------
-
-      //   addProduct:(product,callback)=>{
-
-
-   //      console.log(db,'error here');
-   //      db.get().collection('product').insertOne(product).then((data)=>{
-         
-   //      callback(data.ops[0]._id)
-   //   })
-   //   }
+module.exports = {
+  addProduct,
+  getAllProducts,
+  deleteProduct,
+  getProductDetails,
+  updateProduct,
+};
