@@ -8,14 +8,13 @@ const userHelpers=require ('../helpers/user-helpers');
 router.get('/', function(req, res, next) {
   let user=req.session.user
   productHelpers.getAllProducts().then((products)=>{
-
- 
-
-       res.render('user/view-products',{products,user})
+    
+    res.render('user/view-products',{products,user})
   })
 });
 router.get('/product/:id',async (req,res)=>{
   let product=await productHelpers.getProductDetails(req.params.id);
+  product.Content = product.Content || product.p1
   let products =req.session.user;
 console.log(product)
   res.render('user/product',{product, products});

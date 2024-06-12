@@ -45,7 +45,7 @@ function deleteProduct(prodId) {
 }
 function getProductDetails(prodId) {
   return new Promise((resolve, reject) => {
-    Article.findById(prodId).then((product) => {
+    Article.findById(prodId).lean().then((product) => {
       resolve(product);
     });
   });
